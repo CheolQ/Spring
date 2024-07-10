@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.emp.mapper.EmpMapper">
+	<!-- 전체조회 -->
+	<select id="selectEmpAll" resultType="EmpVO">
+	SELECT empid
+		   , empname
+		   , mgr
+		   , sal
+		   , deptid
+		   , hiredate
+	FROM emp
+	ORDER BY empid
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="selectEmpInfo" resultType="EmpVO">
+	SELECT empid
+		   , empname
+		   , mgr
+		   , sal
+		   , deptid
+		   , hiredate
+	FROM emp
+	WHERE empid = #{empid}
+	<!-- ORDER BY ${keyword} -->
+	<!-- 
+		#{} : PreparedStatement => 데이터 타입에 따른 작업		
+		${} : Statement 		=> 데이터 타입을 무시
+	 -->
+	</select>
+	
+	<!-- 등록 --> <!-- selectKey resultType는 해당 필드가 가지고 있는 타입 -->
+	<insert id="insertEmpInfo" parameterType="EmpVO">
+	<selectKey keyProperty="empid"
+			   resultType="integer"
+			   order="BEFORE">
+		SELECT NVL(MAX(empid), 0) + 1
+		FROM emp
+	</selectKey>
+	INSERT INTO emp
+			(
+				empid
+				, empname
+				, mgr
+				, sal
+				<if test="deptid > 0">	<!-- 연동하는 조건을 아래처럼 똑같이 실행해줘야됨 -->
+				, deptid
+				</if>
+				, hiredate
+			)
+		VALUES
+			(
+				<!-- emp_seq.NEXTVAL -->
+				#{empid}
+				,#{empname}
+				,#{mgr}
+				,#{sal}
+				<if test="deptid > 0">	
+				,#{deptid}
+				</if>
+				<choose>
+					<when test="hiredate != null">
+						,#{hiredate}
+					</when>
+					<otherwise>	 <!-- 마지막 기타 모든것이 false일때 otherwise를 실행-->
+						, sysdate
+					</otherwise>
+				</choose>
+			)
+	</insert>		
+	
+	<!-- 수정 -->
+	<update id="updateEmpInfo">
+		UPDATE emp
+		SET empname = #{emp.empname}
+			, sql = #{emp.sal}
+			, mgr = #{emp.mgr}
+			, deptid = #{emp.deptid}
+		WHERE empid = #{id}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteEmpInfo" parameterType="int">
+		DELETE FROM emp
+		WHERE empid = #{id}
+	</delete>
+	
+	
+	
+</mapper>
