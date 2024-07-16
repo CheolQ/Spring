@@ -74,7 +74,7 @@
 	<update id="updateEmpInfo">
 		UPDATE emp
 		SET empname = #{emp.empname}
-			, sql = #{emp.sal}
+			, sal = #{emp.sal}
 			, mgr = #{emp.mgr}
 			, deptid = #{emp.deptid}
 		WHERE empid = #{id}

@@ -45,12 +45,16 @@ public class EmpController {
 		EmpVO findVO = empService.empInfo(empVO);
 		model.addAttribute("empInfo", findVO);
 		return "emp/info";
+		//classpath:/templates/emp/info.html
 	}
 	
 	// 등록 - 페이지
 	@GetMapping("empInsert")
 	public String empInsertForm() {
+//		model.addAttribute("empVO", new EmpVO());
+		
 		return "emp/insert";
+		//classpath:/templates/emp/insert.html
 	}
 	
 	// 등록 - 처리(연산, submit)
@@ -82,14 +86,14 @@ public class EmpController {
 	}
 	
 	// 수정 - 처리(연산, AJAX => QueryString)
-	@PostMapping("empUpdate")
+//	@PostMapping("empUpdate")
 	@ResponseBody // => AJAX
 	public Map<String , Object> empUpdateAJAXQueryString(EmpVO empVO){
 		return empService.empUpdate(empVO);
 	}
 	
 	// 수정 - 처리(연산, AJAX => JSON : @RequestBody)
-//	@PostMapping("empUpdate")
+	@PostMapping("empUpdate")
 	@ResponseBody // => AJAX
 	public Map<String , Object> empUpdateAJAXJSON(@RequestBody EmpVO empVO){
 		return empService.empUpdate(empVO);
