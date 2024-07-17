@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.app.emp.service.EmpService;
 import com.yedam.app.emp.service.EmpVO;
-
+@CrossOrigin("*")	// "*" astar 모든 오리진에 대해서 제약을 두지않는다.
+					// (origins = "http://localhost:5000") 특정 오리진을 제약둘 때
 @RestController // => @Controlller + 모든 메소드에 @ResponseBody 선언
 public class EmpRestController {
 	// 내부 컨트롤러가 전부 AJAX 전용
@@ -41,8 +44,13 @@ public class EmpRestController {
 		return empService.empInsert(empVO);
 	}
 	
-	// 수정
-	
+	// 수정	=>	Patch
+	@PutMapping("emps/{empid}")	// 단건, 단건조회와 등록이 합쳐진거랑 비슷한
+	public Map<String, Object> empUpdate(@PathVariable Integer empid,
+										 @RequestBody EmpVO empVO) {	// 등록
+		empVO.setEmpid(empid);
+		return empService.empUpdate(empVO);
+	}
 	
 	// 삭제
 	@DeleteMapping("emps/{empid}")
