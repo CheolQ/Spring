@@ -14,7 +14,7 @@
 		$('.uploadBtn').on('click', function(event){
 			let formData = new FormData();
 			// 유사) jQuery.serializeArray();
-			// 1) <from/>태그 내부의 입력태그 정보를 한번에 받음
+			// 1) <form/>태그 내부의 입력태그 정보를 한번에 받음
 			// 2) AJAX를 이용하여 'Content-type:multipart/form-data'를 보내는 경우
 			
 			let input = $(event.currentTarget).prev()[0];
