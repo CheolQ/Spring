@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/">
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title></title>
 </head>
 <body>
 	<div>
@@ -17,12 +20,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<th:block th:each="board : ${boards}">
-					<tr>
+				<th:block th:each="board, sts : ${boards}"> <!-- th: each="info, sts : ${boards}" -->
+					<tr th:name="${sts.count}"
+						th:onclick="|location.href='@{boardInfo(boardNo=${board.boardNo})}'|"> 
+						<!-- <tr:name="${sts.count}" , "${sts.first}" , "${sts.index}"-->
 						<td th:text="${board.boardNo}"></td>
 						<td th:text="${board.boardTitle}"></td>
 						<td th:text="${board.boardWriter}"></td>
-						<td>[[${#dates.format(board.regdate, 'yyyy년MM월dd일')}]] </td>					
+						<td>[[${#dates.format(board.regdate, 'yyyy년MM월dd일')}]] </td>				
 					<tr>
 				</th:block>
 			</tbody>

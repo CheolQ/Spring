@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<div>
+		<h3>게시글 등록</h3>
+		<form name="insertForm" th:action="@{/boardInsert}" method="post">
+		<table>
+			<tr>
+				<th>제목</th>
+				<td><input type="text" name="boardTitle"></td>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td><input type="text" name="boardWriter"></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td><input type="text" name="boardContent"></td>
+			</tr>
+			<tr>
+				<th>첨부이미지</th><!-- cat.jpg -->
+				<td><input type="text" name="image"></td>
+			</tr>
+			<tr>
+				<th>작성일자</th>
+				<td><input type="text" name="regdate" placeholder="yyyy/MM/dd"></td>
+			</tr>
+		</table>
+		<button type="submit">등록</button>
+		</form>
+	</div>
+	<script>
+		$('form[name=insertForm]').on('submit', boardInsertHandler);
+		function boardInsertHandler(event){
+			event.preventDefault();	//해당 이벤트 일시정지
+			
+			let title = $('input[name="boardTitle"]');
+			let writer = $('input[name="boardWriter"]');
+			let Content = $('input[name="boardContent"]');
+			
+			if(title.val() == ''){
+				alert('제목가 입력되지 않았습니다.');	
+				title.focus();
+				return;
+			}
+			if(writer.val() == ''){
+				alert('작성자가 입력되지 않았습니다.');	
+				writer.focus();
+				return;
+			}
+			if(Content.val() == ''){
+				alert('내용이 입력되지 않았습니다.');	
+				Content.focus();
+				return;
+			}
+			
+			alert('게시글 등록 완료');
+			insertForm.submit();
+		}
+	
+// 	insertForm.addEventListener('submit', function(event){
+// 		event.preventDefault();	//해당 이벤트 일시정지
+	
+// 	let btitle = document.querySelector('input[name="boardTitle"]');
+// 			if(btitle.value == ''){
+// 				alert('제목은 필수 값입니다.');
+// 				btitle.focus();
+// 				return;
+// 			}	
+// 	let bwriter = document.querySelector('input[name="boardWriter"]');
+// 			if(bwriter.value == ''){
+// 				alert('작성자는 필수 값입니다.');
+// 				bwriter.focus();
+// 				return;
+// 			}	
+// 	let bcontent = document.querySelector('input[name="boardContent"]');
+// 			if(bcontent.value == ''){
+// 				alert('내용은 필수 값입니다.');
+// 				bcontent.focus();
+// 				return;
+// 			}
+// 	})
+
+
+	</script>
+</body>
+</html>

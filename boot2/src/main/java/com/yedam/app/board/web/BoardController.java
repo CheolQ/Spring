@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,7 +40,7 @@ public class BoardController {
 	@GetMapping("boardInfo")
 	public String boardInfo(BoardVO boardVO, Model model) {
 		BoardVO findVO = boardService.boardInfo(boardVO);
-		model.addAttribute("boardInfo", findVO);
+		model.addAttribute("board", findVO);
 		return "board/boardInfo";
 	}
 
@@ -48,20 +49,20 @@ public class BoardController {
 	public String boardInsertForm() { // 일반적인 <form /> 활용
 		return "board/boardInsert";
 	}
-
+	
 	// 등록 - 처리 : URI - boardInsert / PARAMETER - BoardVO(QueryString)
 	// 			   RETURN - 단건조회 다시 호출
 	@PostMapping("boardInsert")
 	public String boardInsertProcess(BoardVO boardVO) {
 		int bno = boardService.insertBoard(boardVO);
-		return "redirect:boardInfo?boardNO=" + bno;
+		return "redirect:boardInfo?boardNo=" + bno;		//리다이렉트 조심...하;
 	}
 
 	// 수정 - 페이지 : URI - boardUpdate / PARAMETER - BoardVO(QueryString)
 	// RETURN - board/boardUpdate
 	@GetMapping("boardUpdate")
-	public String boardUpdateForm(BoardVO boardVO, Model model) {
-		BoardVO findVO = boardService.boardInfo(boardVO);
+	public String boardUpdateForm(BoardVO boardVo, Model model) {
+		BoardVO findVO = boardService.boardInfo(boardVo);
 		model.addAttribute("board", findVO);
 		return "board/boardUpdate";
 	}
@@ -70,7 +71,8 @@ public class BoardController {
 	// RETURN - 수정결과 데이터(Map) => AJAX => @ResponseBOdy
 	@PostMapping("boardUpdate")
 	@ResponseBody
-	public Map<String, Object> boardUpdateProcess(BoardVO boardVO) {
+	public Map<String, Object> boardUpdateProcess(
+							@RequestBody BoardVO boardVO) {
 		return boardService.updateBoard(boardVO);
 	}
 

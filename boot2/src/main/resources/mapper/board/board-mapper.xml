@@ -34,18 +34,18 @@
 			FROM board
 		</selectKey>
 		INSERT INTO board
-				(
+		       (
 					board_no
 					, board_title
 					, board_content
-					, board_writer
-					, regdate
+					, em
+					, 
 					, image
-				)
+			   )
 			   VALUES
 			   (
 			   		#{boardNo}
-			   		, #{boardTitle}
+			   		, #{boardTitle
 			   		, #{boardContent}
 			   		, #{boardWriter}
 			   		, #{regdate}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<div>
+		<h3>게시글 정보</h3>
+		<table>
+			<tr>
+				<th>번호</th>
+				<td th:text="${board.boardNo}"></td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td>[[${board.boardTitle}]]</td>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td>[[${board.boardWriter}]]</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td style="height:100px; width:200px;">
+						[[${board.boardContent}]]
+				</td>
+			</tr>
+			<tr>
+				<th>첨부이미지</th>
+				<!-- /images/cat.jpg -->
+				<td><img style="width:50%;" 
+				th:src="|${#httpServletRequest.getContextPath()}/images/${board.image}|"></td> <!-- 변수표현식 -->
+				
+<!-- 				<td><img style="width:50%;" -->
+<!-- 						th:src="@{/images/{fileName}(fileName=${board.image})}"></td> -->
+						<!-- 링크표현식임, 경로안에는 ~값이다 괄호안에 선호 -->
+
+			</tr>
+			<tr>
+				<th>작성일자</th><!-- 'yyyy/MM/dd' -->
+				<td>[[${#dates.format(board.regdate, 'yyyy/MM/dd')}]]</td>
+			</tr>
+		</table>
+		<div>
+			<button type="button" th:onclick="|location.href='@{boardUpdate(boardNo=${board.boardNo})}'|">수정</button>
+			<button type="button" th:onclick="|location.href='@{boardList}'|">목록</button>
+			<button type="button" th:onclick="|location.href='@{boardDelete(boardNo=${board.boardNo})}'|">삭제</button>
+		</div>
+	</div>
+</body>
+</html>
